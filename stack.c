@@ -27,6 +27,7 @@ int stack_size(const Stack *stack) {
   return stack->logical_length;
 }
 
+// Private function
 void *stack_address_for_item(Stack *stack, int index) {
   return (char *)stack->elements + (index * stack->elements_size);
 }
