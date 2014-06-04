@@ -28,7 +28,7 @@ int stack_size(const Stack *stack) {
 }
 
 // Private function
-void *stack_address_for_item(Stack *stack, int index) {
+static void *stack_address_for_item(Stack *stack, int index) {
   return (char *)stack->elements + (index * stack->elements_size);
 }
 
@@ -40,6 +40,7 @@ void stack_push(Stack *stack, void *element_address) {
     // Double content size
     int new_size = stack->allocated_length * stack->elements_size * 2;
     stack->elements = realloc(stack->elements, new_size);
+    assert(stack->elements != NULL);
     stack->allocated_length *= 2;
   }
 
@@ -55,6 +56,7 @@ void stack_pop(Stack *stack, void *element_address) {
     if (stack->allocated_length > STACK_DEFAULT_SIZE) {
       int new_size = stack->allocated_length * stack->elements_size / 2;
       stack->elements = realloc(stack->elements, new_size);
+      assert(stack->elements != NULL);
       stack->allocated_length /= 2;
     }
   }
