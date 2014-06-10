@@ -5,7 +5,7 @@ int main(int argc, const char *argv[])
 {
   Stack stack;
 
-  stack_new(&stack, sizeof(int));
+  stack_new(&stack, sizeof(int), NULL);
 
   for (int i = 0; i < 24; i++) {
     stack_push(&stack, &i);
