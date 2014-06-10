@@ -5,17 +5,30 @@
 
 #include "stack.h"
 
-void stack_new(Stack *stack, size_t elements_size) {
+// Private function
+static void *stack_address_for_item(Stack *stack, int index) {
+  return (char *)stack->elements + (index * stack->elements_size);
+}
+
+void stack_new(Stack *stack, size_t elements_size, void (*free_function)(void *)) {
   stack->elements = malloc(STACK_DEFAULT_SIZE * elements_size);
 
   stack->elements_size = elements_size;
   stack->logical_length = 0;
   stack->allocated_length = STACK_DEFAULT_SIZE;
 
+  stack->free_function = free_function;
+
   assert(stack->elements != NULL);
 }
 
 void stack_dispose(Stack *stack) {
+  if(stack->free_function != NULL) {
+    for(int x = 0; x < stack->logical_length; x++) {
+      stack->free_function(stack_address_for_item(stack, x));
+    }
+  }
+
   free(stack->elements);
 }
 
@@ -25,11 +38,6 @@ BOOL stack_empty(const Stack *stack) {
 
 int stack_size(const Stack *stack) {
   return stack->logical_length;
-}
-
-// Private function
-static void *stack_address_for_item(Stack *stack, int index) {
-  return (char *)stack->elements + (index * stack->elements_size);
 }
 
 void stack_push(Stack *stack, void *element_address) {
