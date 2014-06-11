@@ -32,7 +32,7 @@ void stack_dispose(Stack *stack) {
   free(stack->elements);
 }
 
-BOOL stack_empty(const Stack *stack) {
+bool stack_empty(const Stack *stack) {
   return stack->logical_length == 0;
 }
 

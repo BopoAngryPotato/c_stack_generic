@@ -1,9 +1,9 @@
 #ifndef STACK_H
 #define STACK_H
 
-#define STACK_DEFAULT_SIZE 4
+#include <stdbool.h>
 
-#define BOOL int
+#define STACK_DEFAULT_SIZE 4
 
 typedef struct {
   void *elements;
@@ -16,7 +16,7 @@ typedef struct {
 void stack_new(Stack *stack, size_t elements_size, void (*free_function)(void *));
 void stack_dispose(Stack *stack);
 
-BOOL stack_empty(const Stack *stack);
+bool stack_empty(const Stack *stack);
 int stack_size(const Stack *stack);
 
 void stack_push(Stack *stack, void *element_address);
