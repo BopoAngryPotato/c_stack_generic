@@ -5,6 +5,12 @@
 
 #define STACK_DEFAULT_SIZE 4
 
+#ifndef THROW_ERROR
+#define THROW_ERROR(E) \
+  fprintf (stderr, E); \
+  exit(1);
+#endif
+
 typedef struct {
   void *elements;
   size_t elements_size;

@@ -57,6 +57,9 @@ void stack_push(Stack *stack, void *element_address) {
 }
 
 void stack_pop(Stack *stack, void *element_address) {
+  if (stack_empty(stack)) {
+    THROW_ERROR("Cannot pop. Stack is empty.")
+  }
 
   if (stack->allocated_length / 2 >= stack->logical_length) {
 
