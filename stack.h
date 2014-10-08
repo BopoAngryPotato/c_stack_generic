@@ -6,27 +6,32 @@
 #define STACK_DEFAULT_SIZE 4
 
 #ifndef THROW_ERROR
-#define THROW_ERROR(E) \
-  fprintf (stderr, E); \
-  exit(1);
+
+#define THROW_ERROR(E) { \
+  fprintf(stderr, (E)); \
+  exit(1); \
+}
+
 #endif
 
-typedef struct {
+typedef void (*stack_free_function)(void *);
+
+typedef struct stack_s {
   void *elements;
   size_t elements_size;
   int logical_length;
   int allocated_length;
-  void (*free_function)(void *);
-} Stack;
+  stack_free_function free_function;
+} stack_s;
 
-void stack_new(Stack *stack, size_t elements_size, void (*free_function)(void *));
-void stack_dispose(Stack *stack);
+void stack_new(stack_s *stack, size_t elements_size, stack_free_function free_function);
+void stack_free(stack_s *stack);
 
-bool stack_empty(const Stack *stack);
-int stack_size(const Stack *stack);
+bool stack_empty(const stack_s *stack);
+int stack_size(const stack_s *stack);
 
-void stack_push(Stack *stack, void *element_address);
-void stack_pop(Stack *stack, void *element_address);
+void stack_push(stack_s *stack, void *element_address);
+void stack_pop(stack_s *stack, void *element_address);
 
 #endif
 

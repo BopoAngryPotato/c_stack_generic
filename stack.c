@@ -5,12 +5,14 @@
 
 #include "stack.h"
 
+typedef char * byte_t;
+
 // Private function
-static void *stack_address_for_item(Stack *stack, int index) {
-  return (char *)stack->elements + (index * stack->elements_size);
+static void *stack_address_for_item(stack_s *stack, int index) {
+  return (byte_t)stack->elements + (index * stack->elements_size);
 }
 
-void stack_new(Stack *stack, size_t elements_size, void (*free_function)(void *)) {
+void stack_new(stack_s *stack, size_t elements_size, stack_free_function free_function) {
   stack->elements = malloc(STACK_DEFAULT_SIZE * elements_size);
 
   stack->elements_size = elements_size;
@@ -22,7 +24,7 @@ void stack_new(Stack *stack, size_t elements_size, void (*free_function)(void *)
   assert(stack->elements != NULL);
 }
 
-void stack_dispose(Stack *stack) {
+void stack_free(stack_s *stack) {
   if(stack->free_function != NULL) {
     for(int x = 0; x < stack->logical_length; x++) {
       stack->free_function(stack_address_for_item(stack, x));
@@ -32,15 +34,15 @@ void stack_dispose(Stack *stack) {
   free(stack->elements);
 }
 
-bool stack_empty(const Stack *stack) {
+bool stack_empty(const stack_s *stack) {
   return stack->logical_length == 0;
 }
 
-int stack_size(const Stack *stack) {
+int stack_size(const stack_s *stack) {
   return stack->logical_length;
 }
 
-void stack_push(Stack *stack, void *element_address) {
+void stack_push(stack_s *stack, void *element_address) {
   stack->logical_length += 1;
 
   if (stack->logical_length == stack->allocated_length) {
@@ -56,7 +58,7 @@ void stack_push(Stack *stack, void *element_address) {
   memcpy(address, element_address, stack->elements_size);
 }
 
-void stack_pop(Stack *stack, void *element_address) {
+void stack_pop(stack_s *stack, void *element_address) {
   if (stack_empty(stack)) {
     THROW_ERROR("Cannot pop. Stack is empty.")
   }

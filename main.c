@@ -3,7 +3,7 @@
 
 int main(int argc, const char *argv[])
 {
-  Stack stack;
+  stack_s stack;
 
   stack_new(&stack, sizeof(int), NULL);
 
@@ -19,7 +19,7 @@ int main(int argc, const char *argv[])
     printf("Popping: %i\n", result);
   }
 
-  stack_dispose(&stack);
+  stack_free(&stack);
 
   return 0;
 }
