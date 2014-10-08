@@ -12,7 +12,8 @@ static void *stack_address_for_item(stack_s *stack, int index) {
   return (byte_t)stack->elements + (index * stack->elements_size);
 }
 
-void stack_new(stack_s *stack, size_t elements_size, stack_free_function free_function) {
+stack_s *stack_new(size_t elements_size, stack_free_function free_function) {
+  stack_s *stack = malloc(sizeof(stack_s));
   stack->elements = malloc(STACK_DEFAULT_SIZE * elements_size);
 
   stack->elements_size = elements_size;
@@ -22,6 +23,8 @@ void stack_new(stack_s *stack, size_t elements_size, stack_free_function free_fu
   stack->free_function = free_function;
 
   assert(stack->elements != NULL);
+
+  return stack;
 }
 
 void stack_free(stack_s *stack) {
@@ -32,6 +35,7 @@ void stack_free(stack_s *stack) {
   }
 
   free(stack->elements);
+  free(stack);
 }
 
 bool stack_empty(stack_s * const stack) {

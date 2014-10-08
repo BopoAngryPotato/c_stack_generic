@@ -24,7 +24,7 @@ typedef struct stack_s {
   stack_free_function free_function;
 } stack_s;
 
-void stack_new(stack_s *stack, size_t elements_size, stack_free_function free_function);
+stack_s *stack_new(size_t elements_size, stack_free_function free_function);
 void stack_free(stack_s *stack);
 
 bool stack_empty(stack_s * const stack);
