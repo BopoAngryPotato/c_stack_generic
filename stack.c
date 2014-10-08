@@ -34,11 +34,11 @@ void stack_free(stack_s *stack) {
   free(stack->elements);
 }
 
-bool stack_empty(const stack_s *stack) {
+bool stack_empty(stack_s * const stack) {
   return stack->logical_length == 0;
 }
 
-int stack_size(const stack_s *stack) {
+int stack_size(stack_s * const stack) {
   return stack->logical_length;
 }
 

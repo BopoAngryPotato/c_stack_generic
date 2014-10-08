@@ -27,8 +27,8 @@ typedef struct stack_s {
 void stack_new(stack_s *stack, size_t elements_size, stack_free_function free_function);
 void stack_free(stack_s *stack);
 
-bool stack_empty(const stack_s *stack);
-int stack_size(const stack_s *stack);
+bool stack_empty(stack_s * const stack);
+int stack_size(stack_s * const stack);
 
 void stack_push(stack_s *stack, void *element_address);
 void stack_pop(stack_s *stack, void *element_address);
